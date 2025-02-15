@@ -38,7 +38,7 @@ public class FloatingDialogService extends Service {
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity = Gravity.CENTER;
+        params.gravity = Gravity.BOTTOM;
         if (windowManager != null) {
             windowManager.addView(dialogView, params);
         } else {
