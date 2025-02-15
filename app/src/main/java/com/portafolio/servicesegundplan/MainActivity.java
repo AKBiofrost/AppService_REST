@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_OVERLAY_PERMISSION = 1000;
 
+    public static boolean Block = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

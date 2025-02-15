@@ -54,10 +54,14 @@ public class FloatingDialogService extends Service {
         TextView message = view.findViewById(R.id.dialog_message);
         Button closeButton = view.findViewById(R.id.dialog_close_button);
 
-        title.setText("RESPUESTA DEL SERVICIO");
-        message.setText("SE HA RESPONDIDO AL CLIENTE");
+        title.setText("PETICION: " + Valores.Peticion);
+        message.setText("SE VA A RESPONDER AL CLIENTE ");
 
-        closeButton.setOnClickListener(v -> stopSelf()); // Stop the service to remove the dialog
+        closeButton.setOnClickListener(v -> {
+            MainActivity.Block = false;
+            stopSelf();
+
+        }); // Stop the service to remove the dialog
 
         return view;
     }
