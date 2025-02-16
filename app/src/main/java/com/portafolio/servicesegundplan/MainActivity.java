@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -29,11 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
@@ -45,8 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.IP);
         textView.setText(getIpAddress(this));
-        Intent intent = new Intent(this, ServerService.class);
-        startService(intent);
+        // Crear una solicitud de trabajo única
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(RestartServiceWorker.class)
+                .build();
+
+        // Programar el trabajo con WorkManager
+        WorkManager.getInstance(this).enqueue(workRequest);
+
+        // Iniciar el servicio manualmente
+        Intent serviceIntent = new Intent(this, ServerService.class);
+        startForegroundService(serviceIntent);
 
     }
 

@@ -1,9 +1,12 @@
 package com.portafolio.servicesegundplan;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,10 +16,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.core.app.NotificationCompat;
+
 public class FloatingDialogService extends Service {
 
     private WindowManager windowManager;
     private View dialogView;
+    private static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "ServerServiceChannel";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -39,13 +46,22 @@ public class FloatingDialogService extends Service {
                 PixelFormat.TRANSLUCENT);
 
         params.gravity = Gravity.BOTTOM;
+
+
         if (windowManager != null) {
+            // Iniciar el servicio en primer plano
             windowManager.addView(dialogView, params);
         } else {
             Log.e("FloatingDialogService", "WindowManager es nulo");
         }
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // Lógica del FloatingDialogService
+
+        return START_STICKY;
+    }
     private View createDialogView() {
         // Inflate your custom dialog layout
         View view = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null);

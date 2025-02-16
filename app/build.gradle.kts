@@ -33,6 +33,7 @@ android {
 
 dependencies {
      // Versión más reciente al momento de escribir esto
+    implementation(libs.work.runtime)
     implementation(libs.commons.io)
     implementation(libs.nanohttpd)
     implementation(libs.nanohttpd.websocket)
